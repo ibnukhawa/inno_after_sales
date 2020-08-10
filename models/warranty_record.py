@@ -35,7 +35,7 @@ class Warranty(models.Model):
 	production_id = fields.Many2one('mrp.production', string="Production")
 	manufacturing_id = fields.Many2one('mrp.production', string='MO Reference')
 	internal_reference = fields.Text(string='Internal Reference')
-	sno_id = fields.Many2one('mrp.serial.number', string='Serial No')
+	sno_id = fields.Many2one('inno.serial.number', string='Serial No')
 	invoice_id = fields.Many2one('account.invoice',string='Invoice Reference')
 	purchase_date = fields.Date(string='Delivery Date')
 	warranty_end_date = fields.Date(string='Warranty End Date',track_visibility='onchange')
