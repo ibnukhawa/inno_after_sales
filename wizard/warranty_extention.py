@@ -11,7 +11,7 @@ class Warrantyextention(models.TransientModel):
     
     @api.multi
     def warrantyextended(self):
-        active_warranty = self.env['warranty.details'].browse(self._context.get('active_ids',[]))
+        active_warranty = self.env['inno.warranty.details'].browse(self._context.get('active_ids',[]))
         active_warranty.write({'warranty_end_date':self.extended_date,'state':'inwarranty'})
         active_warranty.message_post(body=_("Warranty Extended"))
         return True 

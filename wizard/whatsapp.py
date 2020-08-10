@@ -5,7 +5,7 @@ class WhatsappSendMessage(models.TransientModel):
     
     _name = 'whatsapp.message.wizard'
 
-    warranty_id = fields.Many2one('warranty.details',string='Warranty',related='')
+    warranty_id = fields.Many2one('inno.warranty.details',string='Warranty',related='')
     partner_id = fields.Many2one('res.partner',string='Customer', related='warranty_id.partner_id')
     # user_id = fields.Many2one('res.partner', string="Recipient")
     mobile = fields.Char(related='partner_id.mobile', required=True)

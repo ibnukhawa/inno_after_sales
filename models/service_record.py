@@ -4,7 +4,7 @@ from datetime import datetime,timedelta,time
 
 class Service(models.Model):
     
-    _name = "service.details"
+    _name = "inno.service.details"
     _description = "Service Record"
     _inherit = ['mail.thread']
     _rec_name = 'warranty_id'
@@ -15,7 +15,7 @@ class Service(models.Model):
         self.task_count = count
 
     name = fields.Char(string='Service ID',  copy=False,  index=True, default=lambda self: _('New'))
-    warranty_id = fields.Many2one('warranty.details',string='Warranty')
+    warranty_id = fields.Many2one('inno.warranty.details',string='Warranty')
     product_id = fields.Many2one('product.template',string='Product', related='warranty_id.product_id')
     partner_id = fields.Many2one('res.partner',string='Customer', track_visibility='onchange', related='warranty_id.partner_id')
     sno_id = fields.Many2one('mrp.serial.number', string='Serial No')
@@ -35,7 +35,7 @@ class Service(models.Model):
                               ('cancel', 'Cancelled'),], default='registered',string = "Status",track_visibility='onchange')
     @api.model
     def create(self,values):
-        seq = self.env['ir.sequence'].get('service.details') 
+        seq = self.env['ir.sequence'].get('inno.service.details') 
         values['name'] = seq
         result = super(Service,self).create(values)
         return result 
@@ -84,7 +84,7 @@ class Service(models.Model):
     # class ServiceTask(models.Model):
     #     _inherit = 'project.task'
 
-    #     warranty_id = fields.Many2one(comodel_name='warranty.details',string='Warranty')
+    #     warranty_id = fields.Many2one(comodel_name='inno.warranty.details',string='Warranty')
     
     
     class ResPartner(models.Model):

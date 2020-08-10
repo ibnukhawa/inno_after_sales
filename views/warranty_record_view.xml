@@ -8,8 +8,8 @@
 
 	<!-- Sales Warranty Tree View  -->
 	<record id="sales_warranty_details_tree" model="ir.ui.view">
-		<field name="name">sales.warranty.details.tree</field>
-		<field name="model">warranty.details</field>
+		<field name="name">sales.inno.warranty.details.tree</field>
+		<field name="model">inno.warranty.details</field>
 		<field name="arch" type="xml">
 			<tree string="Sales Warranty Details" colors="red:pasang_id== 'jakarta';green:pasang_id=='medan'">
 				<field name="name"/>
@@ -28,8 +28,8 @@
 
 	<!-- Sales Warranty Form View -->
 	<record id="sales_warranty_details_form" model="ir.ui.view">
-		<field name="name">sales.warranty.details.form</field>
-		<field name="model">warranty.details</field>
+		<field name="name">sales.inno.warranty.details.form</field>
+		<field name="model">inno.warranty.details</field>
 		<field name="arch" type="xml">
 
 			<form string="Sales Warranty Details">
@@ -80,36 +80,36 @@
 					</group>
 					<notebook>
 						<page string="Component" name="part_request_line">
-		        				<field name="part_request_ids"  mode="tree" >
-		        					<form string="Component">
-		        						<group>
-		        							<group>
-		        								<field name="product_id" />
-		        								<label for="quantity" />
-		        								<div class="o_row">
-							                        <field name="quantity"/>
-							                        <field name="uom_id" options="{'no_open':True,'no_create':True}" groups="product.group_uom"/>
-							                    </div>
-		        							</group>
-		        							<group>
-		        								<field name="description" />
-												<!-- <field name="serial_number_ids"/> -->
-		        							</group>
-		        						</group>
-		        					</form>
-		        					<tree string="Component" editable="bottom" >
-		        						<field name="part_request_id" invisible="True" />
-										<field name="product_id" />
-		        						<field name="description" />
-										<field name="serial_number_pabrik"/>
-		        						<field name="quantity" />
-		        						<field name="uom_id" />
-		        					</tree>
-		        				</field>
-		        			</page>
+							<field name="part_request_ids" mode="tree">
+								<form string="Component">
+									<group>
+										<group>
+											<field name="product_id" />
+											<label for="quantity" />
+											<div class="o_row">
+												<field name="quantity"/>
+												<field name="uom_id" options="{'no_open':True,'no_create':True}" groups="product.group_uom"/>
+											</div>
+										</group>
+										<group>
+											<field name="description" />
+											<!-- <field name="serial_number_ids"/> -->
+										</group>
+									</group>
+								</form>
+								<tree string="Component" editable="bottom">
+									<field name="part_request_id" invisible="True" />
+									<field name="product_id" />
+									<field name="description" />
+									<field name="serial_number_pabrik"/>
+									<field name="quantity" />
+									<field name="uom_id" />
+								</tree>
+							</field>
+						</page>
 						<!-- <page string="Component" colors="red:status== 'expired';green:status== 'inwarranty'">
 							<field name="sparepart_ids">
-								<tree string="Component" editable="bottom" >
+								<tree string="Component" editable="bottom">
 									<field name="product_id"/>
 									<field name="pabrik_id"/>
 									<field name="qty_id"/>
@@ -139,7 +139,7 @@
 									<field name="image"/>
 								</group>
 							</group>
-                    	</page>
+						</page>
 						<page string="Internal Reference">
 							<separator orientation="vertical"/>
 							<field name="internal_reference" placeholder="Add internal reference notes here..." />
@@ -155,8 +155,8 @@
 									<field name="new_invoice_id" attrs="{'invisible': [('won_campaign', '!=', True)]}" />
 								</group>
 							</group>
-						</page>						
-						
+						</page>
+
 					</notebook>
 				</sheet>
 				<div class="oe_chatter">
@@ -166,19 +166,19 @@
 			</form>
 		</field>
 	</record>
-	
+
 	<record model="ir.actions.act_window" id="action_mrp_part_request">
-	        <field name="name">Serial Number</field>
-	        <field name="type">ir.actions.act_window</field>
-	        <field name="res_model">mrp.part.request.line.warranty</field>
-	        <field name="view_type">form</field>
-	        <field name="view_mode">tree,form</field>
+		<field name="name">Serial Number</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">mrp.part.request.line.warranty</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
 	</record>
-	
+
 	<record id="sales_warranty_details_action" model="ir.actions.act_window">
 		<field name="name">Warranty</field>
 		<field name="type">ir.actions.act_window</field>
-		<field name="res_model">warranty.details</field>
+		<field name="res_model">inno.warranty.details</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 		<field name="help" type="html">

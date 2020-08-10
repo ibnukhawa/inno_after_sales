@@ -25,7 +25,7 @@ from odoo.exceptions import UserError
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    warranty_task_ids = fields.Many2many('warranty.task',string='Tasks Warranty')
+    warranty_task_ids = fields.Many2many('inno.warranty.task',string='Tasks Warranty')
 
 
 

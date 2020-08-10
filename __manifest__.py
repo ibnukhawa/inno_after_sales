@@ -4,12 +4,12 @@
     'author' : 'Odoo Team PT. Innovasi Sarana Grafindo',
     'category': 'Sales',
     'license':'AGPL-3',
-    'summary' : 'Sales Warranty ',
+    'summary' : 'After Sales Innograph ',
     'description': """
 The module helps to manage the warranty details and service information of products sold to customers and thus smoothen the after sales activities.
     """,
     'website': 'www.innograph.com',
-    'depends': ['sale','account', 'base', 'product','mrp','serial_number', 'mrp_production_draft', 'stock_mts_mto_rule', 'project',],
+    'depends': ['sale','account', 'base', 'product','mrp', 'mrp_production_draft', 'stock_mts_mto_rule', 'project',],
     'data': [
         'data/warranty_name_sequence.xml',
         'data/warranty_expire_scheduler.xml',
@@ -32,7 +32,7 @@ The module helps to manage the warranty details and service information of produ
         #'views/security_group.xml'
         
     ],
-    'images': ['static/description/bt_sales_warranty_banner.jpg'],
+    'images': ['static/description/inno_after_sales_banner.jpg'],
     'installable': True,
     'auto_install': False,
 }
