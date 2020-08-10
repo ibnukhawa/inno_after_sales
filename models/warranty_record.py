@@ -29,7 +29,7 @@ class Warranty(models.Model):
 	bom_id = fields.Many2one('mrp.bom', string="Bill of Materials",)
 	location_src_id = fields.Many2one('stock.location', string="Source Location", domain=[('usage', '=', 'internal')])
 	location_dest_id = fields.Many2one('stock.location', string="Destination Location", domain=[('usage', '=', 'internal')])
-	part_request_ids = fields.One2many('mrp.part.request.line.warranty', 'part_request_id', string="Material Request Line")
+	part_request_ids = fields.One2many('inno.part.request.line', 'part_request_id', string="Material Request Line")
 	warehouse_id = fields.Many2one('stock.warehouse', string="User")
 	picking_count = fields.Integer(compute="compute_picking_count")
 	production_id = fields.Many2one('mrp.production', string="Production")
@@ -190,7 +190,7 @@ class Warranty(models.Model):
 	@api.multi
 	def action_fill_part_request_lines(self):
 		for req in self:
-			part_line_obj = self.env['mrp.part.request.line.warranty']
+			part_line_obj = self.env['inno.part.request.line']
 			moves_todo = self.env['stock.move']
 			new_line_ids = []
 			if req.production_id:
@@ -327,7 +327,7 @@ class Warranty(models.Model):
 	image = fields.Binary('Image')
 	
 class MrpPartRequestLineWarranty(models.Model):
-	_name = 'mrp.part.request.line.warranty'
+	_name = 'inno.part.request.line'
 
 	part_request_id = fields.Many2one('inno.warranty.details', string="Material Request")
 	sale_id = fields.Many2one('sale.order', string='SO Reference')	

@@ -170,7 +170,7 @@
 	<record model="ir.actions.act_window" id="action_mrp_part_request">
 		<field name="name">Serial Number</field>
 		<field name="type">ir.actions.act_window</field>
-		<field name="res_model">mrp.part.request.line.warranty</field>
+		<field name="res_model">inno.part.request.line</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 	</record>
