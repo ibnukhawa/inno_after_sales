@@ -57,5 +57,5 @@
                     Create new campaign line here..</p>
         </field>
     </record>
-    <menuitem name="Campaign Details" id="sales_warranty_fourth_sub_menu" parent="inno_after_sales.sales_warranty_sub_menu" action="sales_campaign_details_action" />
+    <!-- <menuitem name="Campaign Details" id="sales_warranty_fourth_sub_menu" parent="inno_after_sales.sales_warranty_sub_menu" action="sales_campaign_details_action" /> -->
 </odoo>
