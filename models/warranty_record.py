@@ -3,7 +3,7 @@ from odoo.exceptions import UserError
 
 class Warranty(models.Model):
 	
-	_name = "warranty.details"
+	_name = "inno.warranty.details"
 	_inherit = ['mail.thread']
 	_description = "Warranty Record"
 	
@@ -14,12 +14,12 @@ class Warranty(models.Model):
 
 	@api.multi
 	def count_service(self):
-		count = self.env['service.details'].search_count([('warranty_id','=',self.id)])
+		count = self.env['inno.service.details'].search_count([('warranty_id','=',self.id)])
 		self.service_count = count
 	
 	@api.multi
 	def count_campaign(self):
-		count = self.env['campaign.details'].search_count([('warranty_id','=',self.id)])
+		count = self.env['inno.campaign.details'].search_count([('warranty_id','=',self.id)])
 		self.campaign_count = count
 
 	name = fields.Char(string='Warranty NO',  copy=False,  index=True, default=lambda self: _('New'))
@@ -29,13 +29,13 @@ class Warranty(models.Model):
 	bom_id = fields.Many2one('mrp.bom', string="Bill of Materials",)
 	location_src_id = fields.Many2one('stock.location', string="Source Location", domain=[('usage', '=', 'internal')])
 	location_dest_id = fields.Many2one('stock.location', string="Destination Location", domain=[('usage', '=', 'internal')])
-	part_request_ids = fields.One2many('mrp.part.request.line.warranty', 'part_request_id', string="Material Request Line")
+	part_request_ids = fields.One2many('inno.part.request.line', 'part_request_id', string="Material Request Line")
 	warehouse_id = fields.Many2one('stock.warehouse', string="User")
 	picking_count = fields.Integer(compute="compute_picking_count")
 	production_id = fields.Many2one('mrp.production', string="Production")
 	manufacturing_id = fields.Many2one('mrp.production', string='MO Reference')
 	internal_reference = fields.Text(string='Internal Reference')
-	sno_id = fields.Many2one('mrp.serial.number', string='Serial No')
+	sno_id = fields.Many2one('inno.serial.number', string='Serial No')
 	invoice_id = fields.Many2one('account.invoice',string='Invoice Reference')
 	purchase_date = fields.Date(string='Delivery Date')
 	warranty_end_date = fields.Date(string='Warranty End Date',track_visibility='onchange')
@@ -52,7 +52,7 @@ class Warranty(models.Model):
 	task_count = fields.Integer(string='Campaign Count', compute = count_task)
 	responsible_id = fields.Many2one(comodel_name="res.users", 
 		string="Responsible", required=True)
-	# sparepart_ids = fields.One2many(comodel_name="warranty.sparepart", 
+	# sparepart_ids = fields.One2many(comodel_name="inno.warranty.sparepart", 
 	#     string="Component",
 	#     inverse_name="warranty_id")
 	pasang_id = fields.Char(string='Location',track_visibility='onchange')
@@ -60,13 +60,13 @@ class Warranty(models.Model):
 	
 	@api.multi
 	def action_warranty_services(self):
-		services = self.env['service.details'].search([('warranty_id','=',self.id)])
-		action = self.env.ref('bt_sales_warranty.sales_service_details_action').read()[0]
+		services = self.env['inno.service.details'].search([('warranty_id','=',self.id)])
+		action = self.env.ref('inno_after_sales.sales_service_details_action').read()[0]
 		action['context'] = {'default_warranty_id':self.id}
 		if len(services) > 1:
 			action['domain'] = [('id', 'in', services.ids)]
 		elif len(services) == 1:
-			action['views'] = [(self.env.ref('bt_sales_warranty.sales_service_details_form').id, 'form')]
+			action['views'] = [(self.env.ref('inno_after_sales.sales_service_details_form').id, 'form')]
 			action['res_id'] = services.ids[0]  
 		else:
 			action['domain'] = [('id', 'in', services.ids)]
@@ -74,13 +74,13 @@ class Warranty(models.Model):
 	
 	@api.multi
 	def action_warranty_campaign(self):
-		campaign = self.env['campaign.details'].search([('warranty_id','=',self.id)])
-		action = self.env.ref('bt_sales_warranty.sales_campaign_details_action').read()[0]
+		campaign = self.env['inno.campaign.details'].search([('warranty_id','=',self.id)])
+		action = self.env.ref('inno_after_sales.sales_campaign_details_action').read()[0]
 		action['context'] = {'default_warranty_id':self.id}
 		if len(campaign) > 1:
 			action['domain'] = [('id', 'in', campaign.ids)]
 		elif len(campaign) == 1:
-			action['views'] = [(self.env.ref('bt_sales_warranty.sales_campaign_details_form').id, 'form')]
+			action['views'] = [(self.env.ref('inno_after_sales.sales_campaign_details_form').id, 'form')]
 			action['res_id'] = campaign.ids[0] 
 		else:
 			action['domain'] = [('id', 'in', campaign.ids)]
@@ -90,7 +90,7 @@ class Warranty(models.Model):
 	def cron_warranty_expire(self):
 		date_eval =  datetime.now()+timedelta(days=30)
 		date_eval_str = date_eval.strftime('%Y-%m-%d')
-		warranty_records = self.env['warranty.details'].search([('warranty_end_date','<=',date_eval_str),
+		warranty_records = self.env['inno.warranty.details'].search([('warranty_end_date','<=',date_eval_str),
 																('state','=','inwarranty')])
 		print '?????????warranty_records??????????',warranty_records
 		for val in warranty_records:                        
@@ -100,7 +100,7 @@ class Warranty(models.Model):
 	def cron_warranty_expired(self):
 		date_eval =  datetime.now()
 		date_eval_str = date_eval.strftime('%Y-%m-%d')
-		warranty_records = self.env['warranty.details'].search([('warranty_end_date','<=',date_eval_str)])
+		warranty_records = self.env['inno.warranty.details'].search([('warranty_end_date','<=',date_eval_str)])
 		print '==========warranty_records_expired==========', warranty_records
 		for val in warranty_records:                        
 			val.state = 'expired'        
@@ -190,7 +190,7 @@ class Warranty(models.Model):
 	@api.multi
 	def action_fill_part_request_lines(self):
 		for req in self:
-			part_line_obj = self.env['mrp.part.request.line.warranty']
+			part_line_obj = self.env['inno.part.request.line']
 			moves_todo = self.env['stock.move']
 			new_line_ids = []
 			if req.production_id:
@@ -232,11 +232,11 @@ class Warranty(models.Model):
 	@api.model
 	def create(self, vals):
 		if vals.get('bom_id') or vals.get('production_id'):
-			vals['name'] = self.env['ir.sequence'].get('warranty.details') 
+			vals['name'] = self.env['ir.sequence'].get('inno.warranty.details') 
 			res = super(Warranty,self).create(vals)
 			res.action_fill_part_request_lines()
 		else:
-			vals['name'] = self.env['ir.sequence'].get('warranty.details') 
+			vals['name'] = self.env['ir.sequence'].get('inno.warranty.details') 
 			res = super(Warranty,self).create(vals)
 		return res
 
@@ -315,21 +315,21 @@ class Warranty(models.Model):
 	@api.depends('warranty_task_id')
 	def warranty_checklist_progress(self):
 		for rec in self:
-			total_len = self.env['warranty.task'].search_count([])
+			total_len = self.env['inno.warranty.task'].search_count([])
 			check_list_len = len(rec.warranty_task_id)
 			if total_len != 0:
 				rec.warranty_checklist_progress = (check_list_len*100) / total_len
 	
-	warranty_task_id = fields.Many2many('warranty.task', string='Check List')
+	warranty_task_id = fields.Many2many('inno.warranty.task', string='Check List')
 	warranty_checklist_progress = fields.Float(compute=warranty_checklist_progress, string='Progress', store=True, recompute=True,
                                       default=0.0)
 	max_rate = fields.Integer(string='Maximum rate', default=100)
 	image = fields.Binary('Image')
 	
 class MrpPartRequestLineWarranty(models.Model):
-	_name = 'mrp.part.request.line.warranty'
+	_name = 'inno.part.request.line'
 
-	part_request_id = fields.Many2one('warranty.details', string="Material Request")
+	part_request_id = fields.Many2one('inno.warranty.details', string="Material Request")
 	sale_id = fields.Many2one('sale.order', string='SO Reference')	
 	product_id = fields.Many2one('product.product', string="Product")
 	description = fields.Char()
