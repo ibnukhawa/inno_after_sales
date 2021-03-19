@@ -25,6 +25,7 @@ The module helps to manage the warranty details and service information of produ
         # 'report/warranty_detail_report.xml',
         'report/warranty_card.xml',
         # 'wizard/whatsapp.xml',
+        'wizard/wizard_whatsapp.xml',
         # 'views/sale_quotation.xml',
         # 'views/sale_task_analysis.xml',
         # 'views/sale_task_view.xml',
