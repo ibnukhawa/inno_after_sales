@@ -9,7 +9,7 @@
 The module helps to manage the warranty details and service information of products sold to customers and thus smoothen the after sales activities.
     """,
     'website': 'www.innograph.com',
-    'depends': ['sale','account', 'base', 'product','mrp', 'mrp_production_draft', 'stock_mts_mto_rule', 'project',],
+    'depends': ['sale','account', 'base', 'product','mrp', 'mrp_production_draft', 'stock_mts_mto_rule', 'project', 'serial_pabrik'],
     'data': [
         'data/warranty_name_sequence.xml',
         'data/warranty_expire_scheduler.xml',
@@ -20,10 +20,11 @@ The module helps to manage the warranty details and service information of produ
         'views/product_template_view.xml',
         'views/warranty_task_analysis.xml',
         'views/warranty_task_view.xml',
+        'views/sale_xpath.xml',
         # 'report/warranty_report.xml',
         # 'report/warranty_detail_report.xml',
         'report/warranty_card.xml',
-        'wizard/whatsapp.xml',
+        # 'wizard/whatsapp.xml',
         # 'views/sale_quotation.xml',
         # 'views/sale_task_analysis.xml',
         # 'views/sale_task_view.xml',

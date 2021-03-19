@@ -24,7 +24,7 @@ class Warranty(models.Model):
 
 	name = fields.Char(string='Warranty NO',  copy=False,  index=True, default=lambda self: _('New'))
 	sale_id = fields.Many2one('sale.order', string='SO Reference')
-	product_id = fields.Many2one('product.template', string="Product" )
+	product_id = fields.Many2one('product.product', string="Product", related='sale_id.product_id' )
 	partner_id = fields.Many2one('res.partner',string='Customer', related='sale_id.partner_id')
 	bom_id = fields.Many2one('mrp.bom', string="Bill of Materials",)
 	location_src_id = fields.Many2one('stock.location', string="Source Location", domain=[('usage', '=', 'internal')])
@@ -33,9 +33,9 @@ class Warranty(models.Model):
 	warehouse_id = fields.Many2one('stock.warehouse', string="User")
 	picking_count = fields.Integer(compute="compute_picking_count")
 	production_id = fields.Many2one('mrp.production', string="Production")
-	manufacturing_id = fields.Many2one('mrp.production', string='MO Reference')
+	manufacturing_id = fields.Many2one('mrp.production', string='MO Reference',)
 	internal_reference = fields.Text(string='Internal Reference')
-	sno_id = fields.Many2one('inno.serial.number', string='Serial No')
+	sno_id = fields.Many2one('inno.serial.number', string='Serial No', )
 	invoice_id = fields.Many2one('account.invoice',string='Invoice Reference')
 	purchase_date = fields.Date(string='Delivery Date')
 	warranty_end_date = fields.Date(string='Warranty End Date',track_visibility='onchange')
@@ -51,7 +51,7 @@ class Warranty(models.Model):
 	campaign_count = fields.Integer(string='Campaign Count', compute = count_campaign)
 	task_count = fields.Integer(string='Campaign Count', compute = count_task)
 	responsible_id = fields.Many2one(comodel_name="res.users", 
-		string="Responsible", required=True)
+		string="Responsible", required=True, default=lambda self: self.env.user and self.env.user.id or False)
 	# sparepart_ids = fields.One2many(comodel_name="inno.warranty.sparepart", 
 	#     string="Component",
 	#     inverse_name="warranty_id")
@@ -333,8 +333,8 @@ class MrpPartRequestLineWarranty(models.Model):
 	sale_id = fields.Many2one('sale.order', string='SO Reference')	
 	product_id = fields.Many2one('product.product', string="Product")
 	description = fields.Char()
-	serial_number_ids = fields.Many2many('serial.number.pabrik',string='Serial Number Pabrik')
-	serial_number_pabrik = fields.Char(string = 'Serial Number Pabrik',)
+	# serial_number_ids = fields.Many2many('serial.number.pabrik',string='Serial Number Pabrik')
+	serial_number_pabrik = fields.Many2one('serial.number.pabrik',string = 'Serial Number Pabrik',)
 	quantity = fields.Float()
 	uom_id = fields.Many2one('product.uom', string="Unit of Measure")
 	item_size = fields.Char()

@@ -5,7 +5,7 @@
 		<field name="name">sales.inno.service.details.tree</field>
 		<field name="model">inno.service.details</field>
 		<field name="arch" type="xml">
-			<tree string="Sales Servcie Details" class="">
+			<tree string="Sales Service Details" class="">
 				<field name="name"/>
 				<field name="warranty_id"/>
 				<field name="partner_id"/>
@@ -25,18 +25,18 @@
 			<form string="Sales Service Details">
 				<header>
 					<field name="state" widget="statusbar" statusbar_visible="registered,inservice,done,delivered"/>
-					<button name="action_state_process" string="Approve" state="inservice" type="object" class="btn-primary" groups="inno_after_sales.group_warranty_manager" attrs="{'invisible': [('state', '!=', 'registered')]}"/>
+					<button name="action_state_process" string="Approve" state="inservice" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'registered')]}"/>
 					<button name="action_state_done" string="Service Done" state="done" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'inservice')]}"/>
 					<button name="action_state_deliver" string="Deliver Product" state="delivered" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'done')]}"/>
-					<button name="action_state_cancel" string="Cancel" type="object" class="btn-primary" groups="inno_after_sales.group_warranty_manager" attrs="{'invisible': [('state', 'in', ('delivered','done'))]}"/>
+					<button name="action_state_cancel" string="Cancel" type="object" class="btn-primary" attrs="{'invisible': [('state', 'in', ('delivered','done'))]}"/>
 
 				</header>
 				<sheet>
-					<div class="oe_right oe_button_box" name="button_box" position="inside">
+					<!-- <div class="oe_right oe_button_box" name="button_box" position="inside">
 						<button name="action_warranty_task" type="object" class="oe_stat_button" icon="fa-tasks">
 							<field string="Task" name="task_count" widget="statinfo"/>
 						</button>
-					</div>
+					</div> -->
 					<xpath expr="//button[@name='toggle_active']" position="before">
 						<div class="oe_button_box" name="button_box">
 							<button name="send_msg" string="Whatsapp Message" type="object" class="oe_stat_button" icon="fa-whatsapp"/>
@@ -52,7 +52,7 @@
 							<field name="warranty_id" domain="[('state','in',['inwarranty','toexpire'])]" attrs="{'readonly': [('state', '!=', 'registered')]}" required="True"/>
 							<field name="partner_id"/>
 							<field name="product_id" attrs="{'readonly': [('state', '!=', 'registered')]}" required="True" />
-							<field name="sno_id" attrs="{'readonly': [('state', '!=', 'registered')]}"/>
+							<!-- <field name="sno_id" attrs="{'readonly': [('state', '!=', 'registered')]}"/> -->
 						</group>
 						<group>
 							<field name="date_received" attrs="{'readonly': [('state', '!=', 'registered')]}"/>

@@ -4,7 +4,7 @@
         <field name="name">inno.warranty.task.history.tree</field>
         <field name="model">inno.warranty.task.history</field>
         <field name="arch" type="xml">
-            <tree string="Warranty Tasks Analysis" create="false">
+            <tree string="Pre-Delivery Analysis" create="false">
                 <field name="warranty_id"/>
                 <field name="warranty_task_id"/>
                 <field name="done"/>
@@ -16,7 +16,7 @@
         <field name="name">inno.warranty.task.history.search</field>
         <field name="model">inno.warranty.task.history</field>
         <field name="arch" type="xml">
-            <search string="Search Warranty Tasks">
+            <search string="Search Pre-Delivery">
                 <field name="warranty_id"/>
                 <field name="warranty_task_id"/>
                 <field name="done"/>
@@ -28,7 +28,7 @@
     </record>
 
     <record id="warranty_tasks_analysis_action" model="ir.actions.act_window">
-        <field name="name">Warranty Tasks Analysis</field>
+        <field name="name">Pre-Delivery Analysis</field>
         <field name="res_model">inno.warranty.task.history</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,search</field>
@@ -37,5 +37,5 @@
         <field name="context">{'search_default_group_by_warranty':1}</field>
     </record>
 
-    <menuitem id="menu_warranty_tasks_analysis" name="Warranty Tasks Analysis" parent="inno_after_sales.product_id_menu" sequence="11" action="inno_after_sales.warranty_tasks_analysis_action"/>
+    <menuitem id="menu_warranty_tasks_analysis" name="Pre-Delivery Analysis" parent="inno_after_sales.product_id_menu" sequence="11" action="inno_after_sales.warranty_tasks_analysis_action"/>
 </odoo>

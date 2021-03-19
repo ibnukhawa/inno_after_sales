@@ -16,9 +16,9 @@ class Service(models.Model):
 
     name = fields.Char(string='Service ID',  copy=False,  index=True, default=lambda self: _('New'))
     warranty_id = fields.Many2one('inno.warranty.details',string='Warranty')
-    product_id = fields.Many2one('product.template',string='Product', related='warranty_id.product_id')
+    product_id = fields.Many2one('product.product',string='Product', related='warranty_id.product_id')
     partner_id = fields.Many2one('res.partner',string='Customer', track_visibility='onchange', related='warranty_id.partner_id')
-    sno_id = fields.Many2one('inno.serial.number', string='Serial No')
+    # sno_id = fields.Many2one('inno.serial.number', string='Serial No', related='warranty_id.sno_id')
     warranty_end_date = fields.Date(string='Warranty End Date', related='warranty_id.warranty_end_date')
     date_received = fields.Date(string='Received Date',track_visibility='onchange',default=datetime.now())
     complaint_note = fields.Text(string='Description',track_visibility='onchange')
@@ -26,7 +26,7 @@ class Service(models.Model):
     return_date = fields.Date(string='Date of Return',track_visibility='onchange')
     warranty_expired = fields.Boolean(string = "Warranty Expired", track_visibility='onchange')
     responsible_id = fields.Many2one(comodel_name="res.users", 
-        string="Responsible", required=True)
+        string="Responsible", required=True,default=lambda self: self.env.user and self.env.user.id or False)
     task_count = fields.Integer(string='Task Count', compute = count_task)
     state = fields.Selection([('registered','Registered'),('approved','Approved'),
                               ('inservice','In Service'),
@@ -64,7 +64,7 @@ class Service(models.Model):
     def action_state_cancel(self,vals):
         for service in self:
             service.warranty_expired = True
-            service.state = 'registered'
+            service.state = 'cancel'
             
     @api.multi
     def action_warranty_task(self):
@@ -85,6 +85,7 @@ class Service(models.Model):
     #     _inherit = 'project.task'
 
     #     warranty_id = fields.Many2one(comodel_name='inno.warranty.details',string='Warranty')
+
     
     
     class ResPartner(models.Model):

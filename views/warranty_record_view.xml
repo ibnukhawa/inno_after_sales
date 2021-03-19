@@ -2,7 +2,7 @@
 <odoo>
 	<menuitem name="After Sales" id="sales_warranty_parent_menu"/>
 	<menuitem name="Warranty" id="sales_warranty_sub_menu" parent="sales_warranty_parent_menu"/>
-	<menuitem name="Product" id="product_id_menu" parent="sales_warranty_parent_menu"/>
+	<menuitem name="Transaction" id="product_id_menu" parent="sales_warranty_parent_menu"/>
 	<menuitem name="Project" id="project_id_menu" parent="sales_warranty_parent_menu"/>
 	<menuitem name="Sales Service" id="service_id_menu" parent="sales_warranty_parent_menu"/>
 
@@ -13,8 +13,9 @@
 		<field name="arch" type="xml">
 			<tree string="Sales Warranty Details" colors="red:pasang_id== 'jakarta';green:pasang_id=='medan'">
 				<field name="name"/>
-				<field name="partner_id"/>
 				<field name="product_id"/>
+				<field name="sale_id"/>
+				<field name="partner_id"/>
 				<field name="sno_id"/>
 				<field name="purchase_date"/>
 				<field name="warranty_end_date"/>
@@ -34,14 +35,14 @@
 
 			<form string="Sales Warranty Details">
 				<header>
-					<button name="action_endcampaigns" string="End Campaign" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'toexpire')]}"/>
-					<button name="action_woncampaigns" string="Won Campaign" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'toexpire')]}"/>
+					<!-- <button name="action_endcampaigns" string="End Campaign" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'toexpire')]}"/>
+					<button name="action_woncampaigns" string="Won Campaign" type="object" class="btn-primary" attrs="{'invisible': [('state', '!=', 'toexpire')]}"/> -->
 					<button name="%(action_warranty_extention)d" string="Extend Warranty" type="action" class="btn-primary" />
 					<field name="state" widget="statusbar" statusbar_visible="inwarranty,toexpire,expired"/>
 				</header>
 				<sheet>
 					<div>
-						<div class="oe_right oe_button_box" name="button_box">
+						<!-- <div class="oe_right oe_button_box" name="button_box">
 							<button name="action_warranty_task" type="object" class="oe_stat_button" icon="fa-tasks">
 								<field string="Task" name="task_count" widget="statinfo"/>
 							</button>
@@ -50,7 +51,7 @@
 							<button name="action_warranty_campaign" type="object" class="oe_stat_button" icon="fa-clone">
 								<field string="Campaign" name="campaign_count" widget="statinfo"/>
 							</button>
-						</div>
+						</div> -->
 						<div class="oe_right oe_button_box" name="button_box" position="inside">
 							<button name="action_warranty_services" type="object" class="oe_stat_button" icon="fa-life-ring">
 								<field string="Services" name="service_count" widget="statinfo"/>
@@ -64,10 +65,10 @@
 					</div>
 					<group>
 						<group>
+							<field name="sale_id"/>
 							<field name="sno_id"/>
 							<field name="partner_id" required="True" readonly="False"/>
 							<field name="product_id" required="True" attrs="{'readonly': [('state', '!=', 'inwarranty')]}"/>
-							<field name="sale_id"/>
 							<field name="manufacturing_id"/>
 							<field name="bom_id"/>
 						</group>
@@ -107,7 +108,7 @@
 								</tree>
 							</field>
 						</page>
-						<!-- <page string="Component" colors="red:status== 'expired';green:status== 'inwarranty'">
+						<!-- <page string="Component">
 							<field name="sparepart_ids">
 								<tree string="Component" editable="bottom">
 									<field name="product_id"/>
@@ -132,19 +133,31 @@
 						<page string="Pre-delivery">
 							<group>
 								<group string="Checklist">
-									<field name="warranty_task_id" widget="many2many_checkboxes"/>
+									<field name="warranty_task_id" widget="one2many_checkbox"/>
 								</group>
-								<group string="Completed">
+								<!-- <group string="Completed">
 									<field name="warranty_checklist_progress" widget="percentpie"/>
 									<field name="image"/>
-								</group>
+								</group> -->
 							</group>
 						</page>
+						<!-- <page string="Pre-deliveryII">
+							<group>
+								<group string="Checklist">
+									<field name="grouped_task" eval="False"/>
+	                    			<label for="grouped_task"/>
+								</group>
+								<group>
+									<field name="parent_task_id" attrs="{'invisible': [('','!=', 1)]}" style="width: 35%"/>
+									<field name="group_product_task" widget="many2many_tags" attrs="{'invisible': [('grouped_task','!=',True)]}" style="width:35%"/>
+								</group>
+							</group>
+						</page> -->
 						<page string="Internal Reference">
 							<separator orientation="vertical"/>
 							<field name="internal_reference" placeholder="Add internal reference notes here..." />
 						</page>
-						<page string="Campaign">
+						<!-- <page string="Campaign">
 							<group>
 								<group>
 									<field name="not_interested" readonly="1"/>
@@ -155,7 +168,7 @@
 									<field name="new_invoice_id" attrs="{'invisible': [('won_campaign', '!=', True)]}" />
 								</group>
 							</group>
-						</page>
+						</page> -->
 
 					</notebook>
 				</sheet>
@@ -183,12 +196,14 @@
 		<field name="view_mode">tree,form</field>
 		<field name="help" type="html">
 			<p class="oe_view_nocontent_create">
-                    Create a Students, the first step of a new sale.</p>
+                    Create a warranty here.</p>
 		</field>
 	</record>
 
 	<menuitem name="Warranty" id="sales_warranty_second_sub_menu" parent="sales_warranty_sub_menu" action="sales_warranty_details_action" />
 	<menuitem name="Product" id="product_menu_catalog" parent="product_id_menu" action="product.product_template_action" sequence="4" groups="sales_team.group_sale_salesman" />
 	<menuitem name="Customer" id="customer_menu_catalog" parent="product_id_menu" action="base.action_partner_form" sequence="5" groups="sales_team.group_sale_salesman" />
-	<!-- <menuitem name="Quotation" id="menu_sale_quotations" parent="service_id_menu" action="action_quotations" sequence="11" />  -->
+	<menuitem name="Quotations" id="menu_sale_quotations" action="sale.action_quotations" parent="inno_after_sales.product_id_menu" sequence="11"/>
+	<menuitem name="Sales Order" id="menu_sale_order" action="sale.action_orders" parent="inno_after_sales.product_id_menu" sequence="12" />
+	<menuitem name="Serial Number Pabrik" id="menu_serial_pabrik" parent="inno_after_sales.product_id_menu" sequence="13" action="serial_pabrik.serial_pabrik_action"/>
 </odoo>
