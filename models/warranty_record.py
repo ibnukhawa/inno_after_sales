@@ -1,5 +1,6 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+from datetime import datetime,timedelta,time
 
 class Warranty(models.Model):
 	
@@ -37,7 +38,7 @@ class Warranty(models.Model):
 	internal_reference = fields.Text(string='Internal Reference')
 	sno_id = fields.Many2one('inno.serial.number', string='Serial No', )
 	invoice_id = fields.Many2one('account.invoice',string='Invoice Reference')
-	purchase_date = fields.Date(string='Delivery Date')
+	purchase_date = fields.Date(string='Delivery Date',default=lambda self: fields.datetime.now())
 	warranty_end_date = fields.Date(string='Warranty End Date',track_visibility='onchange')
 	qty_id = fields.Integer(string="Qty", required=True, default='1')
 	state = fields.Selection([('inwarranty','In Warranty'),
@@ -90,8 +91,7 @@ class Warranty(models.Model):
 	def cron_warranty_expire(self):
 		date_eval =  datetime.now()+timedelta(days=30)
 		date_eval_str = date_eval.strftime('%Y-%m-%d')
-		warranty_records = self.env['inno.warranty.details'].search([('warranty_end_date','<=',date_eval_str),
-																('state','=','inwarranty')])
+		warranty_records = self.env['inno.warranty.details'].search([('warranty_end_date','<=',date_eval_str),('state','=','inwarranty')])
 		print '?????????warranty_records??????????',warranty_records
 		for val in warranty_records:                        
 			val.state = 'toexpire'

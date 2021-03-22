@@ -58,7 +58,7 @@
 							<field name="date_received" attrs="{'readonly': [('state', '!=', 'registered')]}"/>
 							<field name="return_date"/>
 							<field name="responsible_id"/>
-							<field name="warranty_expired" readonly="1"/>
+							<!-- <field name="warranty_expired" readonly="1"/> -->
 						</group>
 					</group>
 					<notebook>
