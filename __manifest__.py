@@ -30,7 +30,7 @@ The module helps to manage the warranty details and service information of produ
         # 'views/sale_task_analysis.xml',
         # 'views/sale_task_view.xml',
        
-        'security/ir.model.access.csv',
+        # 'security/ir.model.access.csv',
         #'views/security_group.xml'
         
     ],
