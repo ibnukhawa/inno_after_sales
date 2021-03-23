@@ -11,7 +11,7 @@
 		<field name="name">sales.inno.warranty.details.tree</field>
 		<field name="model">inno.warranty.details</field>
 		<field name="arch" type="xml">
-			<tree string="Sales Warranty Details" colors="red:pasang_id== 'jakarta';green:pasang_id=='medan'">
+			<tree string="Sales Warranty Details" colors="red:state=='expired';yellow:state=='toexpired'">
 				<field name="name"/>
 				<field name="product_id"/>
 				<field name="sale_id"/>

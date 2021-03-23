@@ -1,5 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_warranty_record,inno.warranty.details,model_warranty_details,,1,1,1,1
-access_service_record,inno.service.details,model_service_details,,1,1,1,1
-access_campaign_record,inno.campaign.details,model_campaign_details,,1,1,1,1
-access_warranty_extention,inno.warranty.extention,model_warranty_extention,,1,1,1,1
+access_warranty_record,inno.warranty.details,model_inno_warranty_details,base.group_user,1,1,1,1
+access_service_record,inno.service.details,model_inno_service_details,base.group_user,1,1,1,1
+access_inno_part_request_line,access_inno_part_request_line,model_inno_part_request_line,base.group_user,1,1,1,1
+access_inno_warranty_task,access_inno_warranty_task,model_inno_warranty_task,base.group_user,1,1,1,1
+access_inno_warranty_task_history,access_inno_warranty_task_history,model_inno_warranty_task_history,base.group_user,1,1,1,1
+access_inno_campaign_details,access_inno_campaign_details,model_inno_campaign_details,base.group_user,1,1,1,1

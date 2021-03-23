@@ -9,6 +9,7 @@
                 <form string="Whatsapp Message">
                     <group>
                         <group>
+                            <field name="warranty_id"/>
                             <field name="user_id"/>
                             <field name="mobile"/>
                             <field name="message"/>

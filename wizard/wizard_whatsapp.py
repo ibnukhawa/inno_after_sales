@@ -6,7 +6,8 @@ import html2text
 class WhatsappSendMessage(models.TransientModel):
     _name = 'whatsapp.message.wizard'
 
-    user_id = fields.Many2one('res.partner', string="Recipient")
+    warranty_id = fields.Many2one('inno.warranty.details',string='Warranty',related='')
+    user_id = fields.Many2one('res.partner', string="Recipient",related='')
     mobile = fields.Char(related='user_id.mobile', required=True)
     message = fields.Text(string="Message")
     model = fields.Char('mail.template.model_id')
