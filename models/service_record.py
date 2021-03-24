@@ -99,5 +99,5 @@ class Service(models.Model):
                 'target': 'new',
                 'view_mode': 'form',
                 'view_type': 'form',
-                'context': {'default_user_id': self.id},
+                'context': {'default_user_id': self.partner_id.id},
                 }
